@@ -7,7 +7,6 @@ public class Singleton
 {
     private static Singleton instance;
 
-    // Private constructor to prevent instantiation from outside
     private Singleton() 
     {
         Console.WriteLine("Singleton instance created.");
