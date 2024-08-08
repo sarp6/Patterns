@@ -1,52 +1,74 @@
 // Builder Pattern
 // Builder pattern, karmaşık nesnelerin adım adım oluşturulmasını sağlar.
-// Nesne oluşturma sürecini kontrol eder ve farklı temsilcilerle aynı oluşturma sürecini kullanarak farklı türde nesneler oluşturabilir.
+// Nesne oluşturma sürecini kontrol eder ve farklı türde nesneler oluşturmak için aynı süreci kullanır.
 
 using System;
 
-public class Product
+public class Car
 {
-    public string PartA { get; set; }
-    public string PartB { get; set; }
-    public string PartC { get; set; }
+    public string Engine { get; set; }
+    public string Wheels { get; set; }
+    public string Seats { get; set; }
+    public string Windows { get; set; }
+    public string GPS { get; set; }
 
-    public void Show()
+    public override string ToString()
     {
-        Console.WriteLine($"Product parts: {PartA}, {PartB}, {PartC}");
+        return $"Car with Engine: {Engine}, Wheels: {Wheels}, Seats: {Seats}, Windows: {Windows}, GPS: {GPS}";
     }
 }
 
-public interface IBuilder
+public interface ICarBuilder
 {
-    void BuildPartA();
-    void BuildPartB();
-    void BuildPartC();
-    Product GetResult();
+    void SetEngine();
+    void SetWheels();
+    void SetSeats();
+    void SetWindows();
+    void SetGPS();
+    Car GetCar();
 }
 
-public class ConcreteBuilder : IBuilder
+public class SportsCarBuilder : ICarBuilder
 {
-    private Product product = new Product();
+    private Car _car = new Car();
 
-    public void BuildPartA() => product.PartA = "PartA";
-    public void BuildPartB() => product.PartB = "PartB";
-    public void BuildPartC() => product.PartC = "PartC";
-    public Product GetResult() => product;
+    public void SetEngine() => _car.Engine = "V8 Engine";
+    public void SetWheels() => _car.Wheels = "Sports Wheels";
+    public void SetSeats() => _car.Seats = "Leather Seats";
+    public void SetWindows() => _car.Windows = "Tinted Windows";
+    public void SetGPS() => _car.GPS = "Built-in GPS";
+    public Car GetCar() => _car;
 }
 
-public class Director
+public class SuvCarBuilder : ICarBuilder
 {
-    private IBuilder builder;
+    private Car _car = new Car();
 
-    public Director(IBuilder builder)
+    public void SetEngine() => _car.Engine = "V6 Engine";
+    public void SetWheels() => _car.Wheels = "All-Terrain Wheels";
+    public void SetSeats() => _car.Seats = "Fabric Seats";
+    public void SetWindows() => _car.Windows = "Standard Windows";
+    public void SetGPS() => _car.GPS = "Dashboard GPS";
+    public Car GetCar() => _car;
+}
+
+public class CarDirector
+{
+    public void ConstructSportsCar(ICarBuilder builder)
     {
-        this.builder = builder;
+        builder.SetEngine();
+        builder.SetWheels();
+        builder.SetSeats();
+        builder.SetWindows();
+        builder.SetGPS();
     }
 
-    public void Construct()
+    public void ConstructSuvCar(ICarBuilder builder)
     {
-        builder.BuildPartA();
-        builder.BuildPartB();
-        builder.BuildPartC();
+        builder.SetEngine();
+        builder.SetWheels();
+        builder.SetSeats();
+        builder.SetWindows();
+        builder.SetGPS();
     }
 }
