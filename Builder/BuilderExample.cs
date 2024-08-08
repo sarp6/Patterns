@@ -4,71 +4,81 @@
 
 using System;
 
-public class Car
+public class Meal
 {
-    public string Engine { get; set; }
-    public string Wheels { get; set; }
-    public string Seats { get; set; }
-    public string Windows { get; set; }
-    public string GPS { get; set; }
+    public string MainCourse { get; set; }
+    public string SideDish { get; set; }
+    public string Drink { get; set; }
+    public string Dessert { get; set; }
 
     public override string ToString()
     {
-        return $"Car with Engine: {Engine}, Wheels: {Wheels}, Seats: {Seats}, Windows: {Windows}, GPS: {GPS}";
+        return $"Meal with Main Course: {MainCourse}, Side Dish: {SideDish}, Drink: {Drink}, Dessert: {Dessert}";
     }
 }
 
-public interface ICarBuilder
+public class MealBuilder
 {
-    void SetEngine();
-    void SetWheels();
-    void SetSeats();
-    void SetWindows();
-    void SetGPS();
-    Car GetCar();
-}
+    private string _mainCourse;
+    private string _sideDish;
+    private string _drink;
+    private string _dessert;
 
-public class SportsCarBuilder : ICarBuilder
-{
-    private Car _car = new Car();
-
-    public void SetEngine() => _car.Engine = "V8 Engine";
-    public void SetWheels() => _car.Wheels = "Sports Wheels";
-    public void SetSeats() => _car.Seats = "Leather Seats";
-    public void SetWindows() => _car.Windows = "Tinted Windows";
-    public void SetGPS() => _car.GPS = "Built-in GPS";
-    public Car GetCar() => _car;
-}
-
-public class SuvCarBuilder : ICarBuilder
-{
-    private Car _car = new Car();
-
-    public void SetEngine() => _car.Engine = "V6 Engine";
-    public void SetWheels() => _car.Wheels = "All-Terrain Wheels";
-    public void SetSeats() => _car.Seats = "Fabric Seats";
-    public void SetWindows() => _car.Windows = "Standard Windows";
-    public void SetGPS() => _car.GPS = "Dashboard GPS";
-    public Car GetCar() => _car;
-}
-
-public class CarDirector
-{
-    public void ConstructSportsCar(ICarBuilder builder)
+    public MealBuilder SetMainCourse(string mainCourse)
     {
-        builder.SetEngine();
-        builder.SetWheels();
-        builder.SetSeats();
-        builder.SetWindows();
-        builder.SetGPS();
+        _mainCourse = mainCourse;
+        return this;
     }
 
-    public void ConstructSuvCar(ICarBuilder builder)
+    public MealBuilder SetSideDish(string sideDish)
     {
-        builder.SetEngine();
-        builder.SetWheels();
-        builder.SetSeats();
-        builder.SetWindows();
-        builder.SetGPS();
+        _sideDish = sideDish;
+        return this;
+    }
+
+    public MealBuilder SetDrink(string drink)
+    {
+        _drink = drink;
+        return this;
+    }
+
+    public MealBuilder SetDessert(string dessert)
+    {
+        _dessert = dessert;
+        return this;
+    }
+
+    public Meal Build()
+    {
+        return new Meal
+        {
+            MainCourse = _mainCourse,
+            SideDish = _sideDish,
+            Drink = _drink,
+            Dessert = _dessert
+        };
+    }
+}
+
+public class Director
+{
+    public Meal ConstructItalianMeal(MealBuilder builder)
+    {
+        return builder
+            .SetMainCourse("Spaghetti")
+            .SetSideDish("Bruschetta")
+            .SetDrink("Wine")
+            .SetDessert("Tiramisu")
+            .Build();
+    }
+
+    public Meal ConstructJapaneseMeal(MealBuilder builder)
+    {
+        return builder
+            .SetMainCourse("Sushi")
+            .SetSideDish("Miso Soup")
+            .SetDrink("Sake")
+            .SetDessert("Mochi")
+            .Build();
     }
 }
