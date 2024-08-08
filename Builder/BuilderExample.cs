@@ -1,5 +1,6 @@
 // Builder Pattern
-// Builder pattern, karmaşık nesnelerin adım adım oluşturulmasını sağlar. Nesne oluşturma sürecini kontrol eder ve farklı temsilcilerle aynı oluşturma sürecini kullanarak farklı türde nesneler oluşturabilir.
+// Builder pattern, karmaşık nesnelerin adım adım oluşturulmasını sağlar.
+// Nesne oluşturma sürecini kontrol eder ve farklı temsilcilerle aynı oluşturma sürecini kullanarak farklı türde nesneler oluşturabilir.
 
 using System;
 
@@ -35,7 +36,14 @@ public class ConcreteBuilder : IBuilder
 
 public class Director
 {
-    public void Construct(IBuilder builder)
+    private IBuilder builder;
+
+    public Director(IBuilder builder)
+    {
+        this.builder = builder;
+    }
+
+    public void Construct()
     {
         builder.BuildPartA();
         builder.BuildPartB();
